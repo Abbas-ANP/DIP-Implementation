@@ -1,0 +1,53 @@
+data:
+  num_workers: 2
+  pin_memory: true
+
+  # 🔥 Reduced batch sizes (stable for Colab GPU)
+  train_batch_size:
+    - 4
+    - 1
+    - 4
+
+  # 🔥 Keep resolution constant (faster training)
+  train_img_size:
+    - 256
+    - 256
+    - 256
+
+  # 🔥 IMPORTANT: Set your dataset paths
+  train_path: ./data/train
+  valid_path: ./data/val
+
+
+optim:
+  cycle_decay: 0.5
+  lr_init: 0.00015
+  lr_min: 1.0e-6
+  use_cycle_limit: false
+
+  # 🔥 Reduce warmup (faster convergence)
+  warmup_epochs: 2
+
+  weight_decay: 1.0e-6
+
+
+train:
+  ckpt_name: last
+  device: cuda
+  model_name: IACC
+  resume: false   # 🔥 IMPORTANT: start fresh training
+  save_dir: ./log
+  seed: 0
+
+  # 🔥 CRITICAL: Reduced epochs (fits 1–2 hrs)
+  stage_epochs:
+    - 5
+    - 2
+    - 1
+
+  task_name: base
+
+  # 🔥 Enable AMP for speed (if GPU supports it)
+  use_amp: True
+
+  valid_frequency: 1

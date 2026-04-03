@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual env
+venv/
+.env/
+
+# OS
+.DS_Store
+
+# Logs & outputs
+log/
+output/
+
+# Large files
+*.pth
+*.pt
+
+# Dataset
+data/
+images/
