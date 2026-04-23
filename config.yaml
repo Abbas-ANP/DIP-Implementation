@@ -1,0 +1,42 @@
+data:
+  num_workers: 2
+  pin_memory: true
+
+  train_batch_size:
+    - 4
+    - 2
+    - 2
+
+  train_img_size:
+    - 256
+    - 256
+    - 256
+
+  train_path: /content/drive/MyDrive/dataset/train
+  valid_path: /content/drive/MyDrive/dataset/valid
+
+optim:
+  lr_init: 0.00015
+  lr_min: 1.0e-6
+  weight_decay: 1.0e-6
+
+  warmup_epochs: 5
+
+train:
+  device: cuda
+  model_name: IACC
+  task_name: improved_research
+
+  save_dir: ./log
+  seed: 0
+
+  resume: false
+
+  stage_epochs:
+    - 10
+    - 5
+    - 5
+
+  valid_frequency: 1
+
+  use_amp: true

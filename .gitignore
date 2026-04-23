@@ -1,0 +1,41 @@
+# PYTHON
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+
+# VIRTUAL ENV
+venv/
+.env/
+.env.*
+
+# JUPYTER / COLAB
+.ipynb_checkpoints/
+
+# DATASETS
+dataset/
+data/
+*.zip
+*.tar
+*.tar.gz
+
+# LOGS & CHECKPOINTS
+log/
+logs/
+*.ckpt
+*.pth
+*.pt
+
+# TORCH CACHE
+.cache/
+torch_cache/
+
+# SYSTEM FILES
+.DS_Store
+Thumbs.db
+
+# MISC
+*.log
