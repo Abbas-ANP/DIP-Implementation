@@ -27,7 +27,7 @@ train:
   model_name: IACC
   task_name: improved_research
 
-  save_dir: ./log
+  save_dir: /content/drive/MyDrive/IACC_log
   seed: 0
 
   resume: false
