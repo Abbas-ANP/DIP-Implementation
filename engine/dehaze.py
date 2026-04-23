@@ -98,7 +98,10 @@ def train(
     set_all_seed(hparams["train"]["seed"])
     make_all_dirs(hparams)
 
-    best_metric = {"ssim": {"value": 0, "epoch": 0}, "psnr": {"value": 0, "epoch": 0}}
+    best_metric = {
+        "ssim": {"value": 0, "epoch": 0},
+        "psnr": {"value": 0, "epoch": 0},
+    }
 
     start_epoch = 1
     print("==========>Start Training<==========")
@@ -107,31 +110,58 @@ def train(
 
     for epoch in range(start_epoch, max_epochs + 1):
 
+        # ---------------- TRAIN ----------------
         train_result = train_one_epoch(
             hparams, model, scaler, optimizer, scheduler, train_loader
         )
-
         logger.log_multi_scaler(train_result, epoch)
+
         scheduler.step(epoch)
+
+        # ---------------- VALID ----------------
+        valid_result = None  # <-- IMPORTANT FIX
 
         if epoch % hparams["train"]["valid_frequency"] == 0:
             valid_result = valid(hparams, model, valid_loader)
             logger.log_multi_scaler(valid_result, epoch)
 
-        if valid_result["ssim"] > best_metric["ssim"]["value"]:
-            best_metric["ssim"] = {"value": valid_result["ssim"], "epoch": epoch}
-            save_all(epoch, model, optimizer, scheduler, scaler,
-                    hparams, best_metric, "best_ssim")
+            # -------- SAVE BEST MODELS --------
+            if valid_result["ssim"] > best_metric["ssim"]["value"]:
+                best_metric["ssim"] = {
+                    "value": valid_result["ssim"],
+                    "epoch": epoch,
+                }
+                save_all(
+                    epoch,
+                    model,
+                    optimizer,
+                    scheduler,
+                    scaler,
+                    hparams,
+                    best_metric,
+                    "best_ssim",
+                )
 
-        if valid_result["psnr"] > best_metric["psnr"]["value"]:
-            best_metric["psnr"] = {"value": valid_result["psnr"], "epoch": epoch}
-            save_all(epoch, model, optimizer, scheduler, scaler,
-                    hparams, best_metric, "best_psnr")
+            if valid_result["psnr"] > best_metric["psnr"]["value"]:
+                best_metric["psnr"] = {
+                    "value": valid_result["psnr"],
+                    "epoch": epoch,
+                }
+                save_all(
+                    epoch,
+                    model,
+                    optimizer,
+                    scheduler,
+                    scaler,
+                    hparams,
+                    best_metric,
+                    "best_psnr",
+                )
 
-        logger.log_multi_scaler(valid_result, epoch)
-
+        # ---------------- SAVE LAST ----------------
         save_all(
             epoch, model, optimizer, scheduler, scaler, hparams, best_metric, "last"
         )
 
+        # ---------------- PRINT ----------------
         print_epoch_result(train_result, valid_result, epoch)

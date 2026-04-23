@@ -12,8 +12,8 @@ data:
     - 256
     - 256
 
-  train_path: /content/drive/MyDrive/dataset/train
-  valid_path: /content/drive/MyDrive/dataset/valid
+  train_path: ./dataset/train
+  valid_path: ./dataset/valid
 
 optim:
   lr_init: 0.00015
